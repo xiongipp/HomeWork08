@@ -6,6 +6,15 @@ public class OperateMatrix {
     int[][] result = null;          //存放矩阵相乘结果
 
     public static int line = 0;
+
+    public static int getLine() {
+        return line;
+    }
+
+    public static void setLine(int line) {
+        OperateMatrix.line = line;
+    }
+
     //定义构造函数，初始化要相称的矩阵信息
     public OperateMatrix(int[][] m1,int[][] m2) {
         this.matrix1 = m1;

@@ -1,6 +1,9 @@
 package ThreadStudy1;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class TestMatrix {
 
@@ -23,7 +26,7 @@ public class TestMatrix {
             Thread thread=new Thread(new threadWork(operateMatrix,countDownLatch));
             thread.start();
         }
-        countDownLatch.await();
+        countDownLatch.await();//等待所有线程都计算完成
         endTime = System.currentTimeMillis();
         System.out.println("计算"+n+"阶矩阵相乘用时："+(endTime-startTime));
         //普通方法求n阶矩阵相乘
@@ -40,6 +43,19 @@ public class TestMatrix {
         endTime = System.currentTimeMillis();
         System.out.println("计算"+n+"阶矩阵相乘用时："+(endTime-startTime));
 
+        //尝试使用线程池
+        System.out.println("线程池时：");
+        OperateMatrix operateMatrix2=new OperateMatrix(matrix1,matrix2);
+        operateMatrix2.setLine(0);
+        startTime = System.currentTimeMillis();
+        ExecutorService pool = Executors.newCachedThreadPool();
+        for(int i=0;i<matrix1.length;i++){
+            Thread thread=new Thread(new threadWork2(operateMatrix2));
+            pool.execute(thread);
+        }
+        pool.shutdown();
+        endTime = System.currentTimeMillis();
+        System.out.println("计算"+n+"阶矩阵相乘用时："+(endTime-startTime));
     }
 
     //生成随机矩阵的方法

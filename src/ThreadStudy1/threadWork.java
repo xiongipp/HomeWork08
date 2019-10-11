@@ -12,6 +12,6 @@ public class threadWork implements Runnable{
     @Override
     public void run() {
         om.operate();
-        countDownLatch.countDown();
+        countDownLatch.countDown();//每计算完成一行，线程数减一。
     }
 }

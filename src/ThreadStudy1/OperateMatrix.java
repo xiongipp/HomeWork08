@@ -32,4 +32,14 @@ public class OperateMatrix {
             result[OperateMatrix.line-1][i]=sum;
         }
     }
+    public void printMatrix(){
+        for(int i=0;i<matrix1.length;i++){
+            for(int j=0;j<matrix2.length;j++){
+                System.out.print(result[i][j]+" ");
+            }
+            System.out.println();
+
+        }
+
+    }
 }

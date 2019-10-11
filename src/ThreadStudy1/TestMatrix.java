@@ -9,7 +9,7 @@ public class TestMatrix {
 
 
     public static void main(String[] args) throws InterruptedException {
-        int n=10000;//矩阵的阶
+        int n=1000;//矩阵的阶
         int[][] matrix1=create_Matrix(n,n);
         int[][] matrix2=create_Matrix(n,n);
         int[][] result =new int[matrix1.length][matrix2.length];
@@ -44,18 +44,21 @@ public class TestMatrix {
         System.out.println("计算"+n+"阶矩阵相乘用时："+(endTime-startTime));
 
         //尝试使用线程池
+        CountDownLatch countDownLatch2 = new CountDownLatch(threadNum);
         System.out.println("线程池时：");
         OperateMatrix operateMatrix2=new OperateMatrix(matrix1,matrix2);
         operateMatrix2.setLine(0);
         startTime = System.currentTimeMillis();
         ExecutorService pool = Executors.newCachedThreadPool();
         for(int i=0;i<matrix1.length;i++){
-            Thread thread=new Thread(new threadWork2(operateMatrix2));
+            Thread thread=new Thread(new threadWork(operateMatrix2,countDownLatch2));
             pool.execute(thread);
         }
+        countDownLatch2.await();
         pool.shutdown();
         endTime = System.currentTimeMillis();
         System.out.println("计算"+n+"阶矩阵相乘用时："+(endTime-startTime));
+        operateMatrix2.printMatrix();
     }
 
     //生成随机矩阵的方法
